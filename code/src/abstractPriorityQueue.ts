@@ -1,4 +1,4 @@
-import { getRandItem } from "../utils"
+import { getRandItem } from "./utils"
 import { Heap, HeapNode } from "./heap"
 
 
