@@ -1,5 +1,5 @@
 import { randInt } from "./utils"
-import { KeyPriorityQueue, CustomPriorityQueue } from "./priorityQueue";
+import { KeyedPriorityQueue, ComparatorPriorityQueue } from "./priorityQueue";
 
 
 function randString(min:number=1, max:number=5) {
@@ -23,8 +23,8 @@ function isBefore(a:string, b:string) {
 
 
 function testComparators() {
-    const compArray = new CustomPriorityQueue<string>(true, isBefore, 'ARRAY')
-    const compPointer = new CustomPriorityQueue<string>(true, isBefore, 'POINTER')
+    const compArray = new ComparatorPriorityQueue<string>(isBefore, true, 'ARRAY')
+    const compPointer = new ComparatorPriorityQueue<string>(isBefore, true, 'POINTER')
 
     for (let i=0; i<1000; i++) {
         const str = randString(1,30)
@@ -50,8 +50,8 @@ function testComparators() {
 function testKeyed() {
     const MAX_LEN = 30
 
-    const keyArray = new KeyPriorityQueue<string>(true, 'ARRAY')
-    const keyPointer = new KeyPriorityQueue<string>(true, 'POINTER')
+    const keyArray = new KeyedPriorityQueue<string>(true, 'ARRAY')
+    const keyPointer = new KeyedPriorityQueue<string>(true, 'POINTER')
 
     for (let i=0; i<1000; i++) {
         const str = randString(1,MAX_LEN)
@@ -80,6 +80,30 @@ function testKeyed() {
 
 
 export default async function main() {
-    testComparators()
+    // testComparators()
+
+    let queue = new KeyedPriorityQueue<string>()
+queue.push('A', 1)
+queue.push('B', 5)
+queue.push('C', -3)
+queue.push('D', 0.5)
+
+while (!(queue.isEmpty()))
+  console.log(queue.pop())
+  
+/* Output:
+PriorityQueueItem { item: 'C', priority: -3 }
+PriorityQueueItem { item: 'D', priority: 0.5 }
+PriorityQueueItem { item: 'A', priority: 1 }
+PriorityQueueItem { item: 'B', priority: 5 }
+*/
+
+queue.push('E', 7)
+console.log(queue.peek())
+// Output: PriorityQueueItem { item: 'E', priority: 7 }
+console.log(queue.peek().item)
+// Output: E
+console.log(queue.peek().priority)
+// Output: 7
 }
 
