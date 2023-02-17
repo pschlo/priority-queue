@@ -1,12 +1,12 @@
 
 import { ComparatorHeapQueue, HeapConstructor, KeyHeapQueue, NodeConstructor } from "./abstractPriorityQueue"
 import { ArrayHeap, ArrayNode } from "./arrayHeap"
-import { PointerMinHeap, PointerNode } from "./pointerHeap"
+import { PointerHeap, PointerNode } from "./pointerHeap"
 
 
 const TYPE_TO_HEAP = new Map<string, [HeapConstructor<any>, NodeConstructor<any,any>]>([
     ['ARRAY', [ArrayHeap, ArrayNode]],
-    ['POINTER', [PointerMinHeap, PointerNode]]
+    ['POINTER', [PointerHeap, PointerNode]]
 ])
 
 
