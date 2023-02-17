@@ -98,8 +98,8 @@ export abstract class KeyHeapQueue<Item, _Node extends HeapNode<Item>> extends B
     }
 
     override pop(): PriorityQueueItem<Item> {
-        // TODO update mapping
         const node = this.heap.extractMin()
+        this.removeItemNode(node.item, node)
         return new PriorityQueueItem(node.item, node.key)
     }
 
@@ -132,8 +132,8 @@ export abstract class ComparatorHeapQueue<Item, _Node extends HeapNode<Item>> ex
     }
 
     override pop(): Item {
-        // TODO update mapping
         const node = this.heap.extractMin()
+        this.removeItemNode(node.item, node)
         return node.item
     }
 }

@@ -1,7 +1,7 @@
 
 import { ComparatorHeapQueue, KeyHeapQueue } from "./abstractPriorityQueue"
-import { ArrayHeap, ArrayNode } from "./arrayMinHeap"
-import { PointerMinHeap, PointerNode } from "./pointerMinHeap"
+import { ArrayHeap, ArrayNode } from "./arrayHeap"
+import { PointerMinHeap, PointerNode } from "./pointerHeap"
 
 
 export class ComparatorArrayQueue<Item> extends ComparatorHeapQueue<Item, ArrayNode<Item>> {
