@@ -1,4 +1,3 @@
-import { getRandItem } from "./utils"
 import { Heap, HeapNode } from "./heap"
 
 
@@ -13,17 +12,25 @@ export class PriorityQueueItem<T> {
 }
 
 
-// Queue that acts on a type of item and a type of node
+// type definitions
+
+// constructs any Heap that uses a specific kind of node
+export type HeapConstructor<_Node extends HeapNode<any>> = new (isLess?: (a:_Node,b:_Node)=>boolean) => Heap<_Node>
+// constructs a specific kind of node
+export type NodeConstructor<Item, _Node extends HeapNode<any>> = new (item:Item,key:number) => _Node
+
+
 export abstract class BaseHeapQueue<Item, _Node extends HeapNode<Item>> {
     protected readonly heap: Heap<_Node>
-    protected abstract readonly nodeConstructor: new (item:Item,key:number)=>_Node
+    protected readonly nodeConstructor: NodeConstructor<Item,_Node>
     protected allowMultiple: boolean
 
     // keep track of the nodes that contain the same item
     protected readonly itemToNodes: Map<Item, Set<_Node>> = new Map()
 
-    constructor(heap: Heap<_Node>, allowMultiple=false) {
+    constructor(heap: Heap<_Node>, nodeConstructor: NodeConstructor<Item,_Node>, allowMultiple=false) {
         this.heap = heap
+        this.nodeConstructor = nodeConstructor
         this.allowMultiple = allowMultiple
     }
 
@@ -63,6 +70,14 @@ export abstract class BaseHeapQueue<Item, _Node extends HeapNode<Item>> {
         return nodes != null
     }
 
+    count(item: Item): number {
+        const nodes = this.getItemNodes(item)
+        if (nodes == null)
+            return 0
+        else
+            return nodes.size
+    }
+
     // deletes all nodes containing the item
     delete(item:Item): void {
         const nodes = this.getItemNodes(item)
@@ -80,9 +95,12 @@ export abstract class BaseHeapQueue<Item, _Node extends HeapNode<Item>> {
 }
 
 
-export abstract class KeyHeapQueue<Item, _Node extends HeapNode<Item>> extends BaseHeapQueue<Item, _Node> {
-    constructor(heapConstructor: new (isLess?: (a:_Node,b:_Node)=>boolean) => Heap<_Node>, allowMultiple=false) {
-        super(new heapConstructor(), allowMultiple)
+export class KeyHeapQueue<Item, _Node extends HeapNode<Item>> extends BaseHeapQueue<Item, _Node> {
+    constructor(heapConstructor: HeapConstructor<_Node>,
+                nodeConstructor: NodeConstructor<Item,_Node>,
+                allowMultiple=false) {
+
+        super(new heapConstructor(), nodeConstructor, allowMultiple)
     }
 
     override push(item:Item, priority:number): void {
@@ -113,10 +131,14 @@ export abstract class KeyHeapQueue<Item, _Node extends HeapNode<Item>> extends B
 }
 
 
-export abstract class ComparatorHeapQueue<Item, _Node extends HeapNode<Item>> extends BaseHeapQueue<Item, _Node> {
-    constructor(heapConstructor: new (isLess?: (a:_Node,b:_Node)=>boolean) => Heap<_Node>, isBefore: (a:Item,b:Item)=>boolean, allowMultiple=false) {
+export class ComparatorHeapQueue<Item, _Node extends HeapNode<Item>> extends BaseHeapQueue<Item, _Node> {
+    constructor(heapConstructor: HeapConstructor<_Node>,
+                nodeConstructor: NodeConstructor<Item,_Node>,
+                isBefore: (a:Item,b:Item)=>boolean,
+                allowMultiple=false) {
+
         const isLess = (a:_Node,b:_Node) => isBefore(a.item, b.item)
-        super(new heapConstructor(isLess), allowMultiple)
+        super(new heapConstructor(isLess), nodeConstructor, allowMultiple)
     }
 
     override push(item:Item): void {

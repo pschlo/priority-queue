@@ -1,38 +1,25 @@
 
-import { ComparatorHeapQueue, KeyHeapQueue } from "./abstractPriorityQueue"
+import { ComparatorHeapQueue, HeapConstructor, KeyHeapQueue, NodeConstructor } from "./abstractPriorityQueue"
 import { ArrayHeap, ArrayNode } from "./arrayHeap"
 import { PointerMinHeap, PointerNode } from "./pointerHeap"
 
 
-export class ComparatorArrayQueue<Item> extends ComparatorHeapQueue<Item, ArrayNode<Item>> {
-    protected nodeConstructor = ArrayNode
+const TYPE_TO_HEAP = new Map<string, [HeapConstructor<any>, NodeConstructor<any,any>]>([
+    ['ARRAY', [ArrayHeap, ArrayNode]],
+    ['POINTER', [PointerMinHeap, PointerNode]]
+])
 
-    constructor(isBefore: (a:Item,b:Item)=>boolean, allowMultiple=false) {
-        super(ArrayHeap, isBefore, allowMultiple)
+
+export class KeyPriorityQueue<Item> extends KeyHeapQueue<Item, any> {
+    constructor(allowMultiple:boolean=false, type:'ARRAY'|'POINTER'='ARRAY') {
+        const [heapConstructor, nodeConstructor] = TYPE_TO_HEAP.get(type)!
+        super(heapConstructor, nodeConstructor, allowMultiple)
     }
 }
 
-export class KeyArrayQueue<Item> extends KeyHeapQueue<Item, ArrayNode<Item>> {
-    protected nodeConstructor = ArrayNode
-
-    constructor(allowMultiple=false) {
-        super(ArrayHeap, allowMultiple)
-    }
-}
-
-
-export class ComparatorPointerQueue<Item> extends ComparatorHeapQueue<Item, PointerNode<Item>> {
-    protected nodeConstructor = PointerNode
-
-    constructor(isBefore: (a:Item,b:Item)=>boolean, allowMultiple=false) {
-        super(PointerMinHeap, isBefore, allowMultiple)
-    }
-}
-
-export class KeyPointerQueue<Item> extends KeyHeapQueue<Item, PointerNode<Item>> {
-    protected nodeConstructor = PointerNode
-
-    constructor(allowMultiple=false) {
-        super(PointerMinHeap, allowMultiple)
+export class CustomPriorityQueue<Item> extends ComparatorHeapQueue<Item, any> {
+    constructor(allowMultiple:boolean=false, isBefore:(a:Item,b:Item)=>boolean, type:'ARRAY'|'POINTER'='ARRAY') {
+        const [heapConstructor, nodeConstructor] = TYPE_TO_HEAP.get(type)!
+        super(heapConstructor, nodeConstructor, isBefore, allowMultiple)
     }
 }
