@@ -102,7 +102,7 @@ export abstract class BaseHeapQueue<Heap extends IHeap<any>> {
 }
 //type MyNode<Heap extends IHeap<any>, Item> = Node<Heap> & (Node<Heap> extends HeapNode<Item> ? Node<Heap> : never)
 
-export class KeyHeapQueue<Heap extends IHeap<Node<Heap>>> extends BaseHeapQueue<Heap> {
+export class KeyHeapQueue<Heap extends IHeap<any>> extends BaseHeapQueue<Heap> {
     constructor(heapConstructor: HeapConstructor<Heap>,
                 allowMultiple=false) {
 
