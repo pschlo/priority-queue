@@ -110,6 +110,10 @@ export class ArrayHeap<T> implements Heap<ArrayNode<T>> {
             this.isLess = isLess
     }
 
+    createNode(item:T, key:number) {
+        return new ArrayNode(item, key)
+    }
+
 
     size(): number {
         // must be equal to this.array.length

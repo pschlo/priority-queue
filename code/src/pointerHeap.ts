@@ -122,6 +122,10 @@ export class PointerHeap<T> implements Heap<PointerNode<T>> {
             this.isLess = isLess
     }
 
+    createNode(item:T, key:number) {
+        return new PointerNode(item, key)
+    }
+
     size(): number {
         return this._size
     }

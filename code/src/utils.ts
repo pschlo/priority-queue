@@ -1,4 +1,6 @@
 
+// infers the return type of newable (constructor) function
+export type ConstructorReturnType<T extends new (...args: any) => any> = T extends new (...args: any) => infer R ? R : never;
 
 // sleep for specified amount of time
 export const delay = (ms:number) => new Promise(resolve => setTimeout(resolve, ms))
