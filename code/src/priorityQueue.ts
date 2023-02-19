@@ -145,6 +145,7 @@ export class KeyedPriorityQueue<Item> extends BasePriorityQueue<Item> {
         if (this.allowMultiple) throw new Error('Cannot update on queue with allowMultiple set')
         const nodes = this.getItemNodes(item)
         if (nodes == null) throw new Error('Queue does not contain item')
+        if (this.order === 'DESCENDING') priority = -priority
         const [node] = nodes
         this.heap.updateKey(node, priority)
     }
