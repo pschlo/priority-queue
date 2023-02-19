@@ -1,6 +1,5 @@
-import { ArrayHeap } from "./arrayHeap"
+import ArrayHeap from "./arrayHeap"
 import { Heap as IHeap, HeapNode } from "./heap"
-import { PointerHeap } from "./pointerHeap"
 
 
 export class PriorityQueueItem<T> {

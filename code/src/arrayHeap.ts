@@ -2,7 +2,7 @@ import { EmptyHeapError, Heap, HeapNode, InvalidNodeError } from "./heap"
 
 
 
-export class ArrayNode<T> implements HeapNode<T> {
+class ArrayNode<T> implements HeapNode<T> {
     readonly item: T
     key: number
 
@@ -99,7 +99,7 @@ export class ArrayNode<T> implements HeapNode<T> {
  * the same node may be inserted multiple times.
  * 
  */
-export class ArrayHeap<T> implements Heap<ArrayNode<T>> {
+export default class ArrayHeap<T> implements Heap<ArrayNode<T>> {
     private readonly array: ArrayNode<T>[] = []
     isLess: (a: ArrayNode<T>, b: ArrayNode<T>) => boolean
 

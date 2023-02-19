@@ -1,7 +1,7 @@
 import { EmptyHeapError, Heap, HeapError, HeapNode, InvalidNodeError } from "./heap"
 
 
-export class PointerNode<T> implements HeapNode<T> {
+class PointerNode<T> implements HeapNode<T> {
     readonly item: T
     key: number
 
@@ -110,7 +110,7 @@ export class PointerNode<T> implements HeapNode<T> {
 /**
  * Since a PointerHeapNode has pointers, the same node may not be inserted more than once.
  */
-export class PointerHeap<T> implements Heap<PointerNode<T>> {
+export default class PointerHeap<T> implements Heap<PointerNode<T>> {
     root: PointerNode<T> | null = null
     isLess: (a: PointerNode<T>, b: PointerNode<T>) => boolean
     private _size: number = 0
