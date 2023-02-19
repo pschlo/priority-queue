@@ -1,4 +1,4 @@
-import { type Item } from "./abstractPriorityQueue"
+import { type Item } from "./priorityQueue"
 
 
 
