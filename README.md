@@ -14,11 +14,11 @@ Two types of heap are already implemented:
 1. **`ArrayHeap`**: Nodes are stored in an array.
 2. **`PointerHeap`**: Nodes store references to their parent and their children.
 
-By default, priority queues use array-based heaps. Some testing seems to suggest that the array-based heap implementation is faster than the pointer-based heap.
+By default, priority queues use `ArrayHeap`. Some testing seems to suggest that it is faster than `PointerHeap`. One reason for this is that finding the last element in the heap, which is used in multiple operations, lies in `O(1)` for `ArrayHeap` and in `O(log n)` for `PointerHeap`.
 
 ## Example
 
-Simple demonstration of the keyed priority queue:
+Simple demonstration of `KeyedQueue`:
 
 ```typescript
 let queue = new KeyedQueue<string>('DESCENDING')
@@ -47,7 +47,7 @@ console.log(queue.peek().priority)
 ```
 
 
-Simple demonstration of the comparator priority queue:
+Simple demonstration of `ComparatorQueue`:
 
 ```typescript
 let queue = new ComparatorQueue<string>((a,b) => a.length < b.length)
@@ -70,3 +70,22 @@ queue.push('tomato')
 console.log(queue.peek())
 // Output: tomato
 ```
+
+
+## Performance
+*tbd*
+
+
+## Design Choices
+A traditional priority queue uses an array-based heap. We wanted to generalize this and allow for different heaps to be utilized, e.g. a pointer-based one. We also noticed that there are two different kinds of priority queue used in software, and since one can be more suitable than the other in certain situations, we implemented both.
+
+Instead of putting items in the heap directly, we store them together with their priority in more generic heap nodes. The heap then only acts on these nodes.
+
+### Array heap
+The typical array-based heap does not allow for a node to know its position. Instead, to find a specific node, the entire array needs to be search linearly, resulting in a `O(n)` runtime. This is not satisfactory, because even though most operations like `insert`, `peekMin` and `extractMin` do not require locating arbitrary nodes, checking if the heap contains a node and more advanced operations like `delete` or `updateKey` do.
+
+This is usually fixed by storing a mapping from the items to their array indices. But since our heap uses separate node objects, we simply store the nodes's index in the node itself. To allow for checking if a node is in a heap, a node also stores a reference to its heap.
+
+### Pointer heap
+Instead of an array index, a pointer heap node stores references to its parent and children.
+
