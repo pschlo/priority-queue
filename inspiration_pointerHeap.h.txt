@@ -15,7 +15,9 @@
 
 
 /*
-FROM: https://github.com/libuv/libuv/blob/v1.x/src/heap-inl.h
+FROM:
+https://github.com/libuv/libuv/blob/v1.x/src/heap-inl.h
+https://stackoverflow.com/a/41338070
 */
 
 #ifndef UV_SRC_HEAP_H_
