@@ -84,6 +84,8 @@ A traditional priority queue uses an array-based heap. We wanted to generalize t
 
 Instead of putting items in the heap directly, we store them together with their priority in more generic heap nodes. The heap then only acts on these nodes.
 
+For `ComparatorQueue`, the priority of an item is not given explicitly. The `key` field of a heap node is thus not used. We decided that a `ComparatorQueue` should always create new heap nodes with priority `-1` as a dummy value.
+
 ### Array heap
 To perform operations on a given node, the node's index in the internal array must be known. The typical array-based heap does not allow for quickly locating a node. Instead, to find a specific node, the entire array must be searched linearly, resulting in a `O(n)` runtime. This is not satisfactory, because even though basic operations like `insert`, `peekMin` and `extractMin` do not require locating arbitrary nodes, more advanced operations like `delete`, `updateKey` or checking if the heap contains a specific node do.
 
