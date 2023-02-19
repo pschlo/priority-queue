@@ -100,16 +100,29 @@ export abstract class BasePriorityQueue<Item> {
 }
 
 
-
+/**
+ * Priority queue that yields items according to the priority they are inserted with.
+ */
 export class KeyedPriorityQueue<Item> extends BasePriorityQueue<Item> {
+    private readonly order: 'ASCENDING'|'DESCENDING'
+
+    /**
+     * 
+     * @param allowMultiple Whether an item can exist in the queue more than once. Default is `false`.
+     * @param order Whether the items should be yielded in ascending or descending order of their priority. Default is `ASCENDING`.
+     * @param heapConstructor Constructor for creating a new heap. Default is a constructor that creates an `ArrayHeap` instance.
+     */
     constructor(allowMultiple=false,
+                order:'ASCENDING'|'DESCENDING' = 'ASCENDING',
                 heapConstructor: HeapConstructor<IHeap<any>> = ArrayHeap) {
 
         super(new heapConstructor(), allowMultiple)
+        this.order = order
     }
 
     override push(item:Item, priority:number): void {
         if (!(this.allowMultiple) && this.contains(item)) throw new Error('Item already exists in heap')
+        if (this.order === 'DESCENDING') priority = -priority
         const node = this.heap.createNode(item, priority)
         this.addItemNode(item, node)
         this.heap.insert(node)
@@ -117,13 +130,15 @@ export class KeyedPriorityQueue<Item> extends BasePriorityQueue<Item> {
 
     override peek(): PriorityQueueItem<Item> {
         const node = this.heap.peekMin()
-        return new PriorityQueueItem(node.item, node.key)
+        const priority = this.order === 'DESCENDING' ? -node.key : node.key
+        return new PriorityQueueItem(node.item, priority)
     }
 
     override pop(): PriorityQueueItem<Item> {
         const node = this.heap.extractMin()
+        const priority = this.order === 'DESCENDING' ? -node.key : node.key
         this.removeItemNode(node.item, node)
-        return new PriorityQueueItem(node.item, node.key)
+        return new PriorityQueueItem(node.item, priority)
     }
 
     update(item:Item, priority:number): void {
@@ -136,7 +151,16 @@ export class KeyedPriorityQueue<Item> extends BasePriorityQueue<Item> {
 }
 
 
+/**
+ * Priority queue that yields items according to the given comparator function.
+ */
 export class ComparatorPriorityQueue<Item> extends BasePriorityQueue<Item> {
+    /**
+     * 
+     * @param isBefore Function that returns true if `a` should be yielded before `b`.
+     * @param allowMultiple Whether an item can exist in the queue more than once. Default is `false`.
+     * @param heapConstructor Constructor for creating a new heap. Default is a constructor that creates an `ArrayHeap` instance.
+     */
     constructor(isBefore: (a:Item,b:Item)=>boolean,
                 allowMultiple = false,
                 heapConstructor: HeapConstructor<IHeap<any>> = ArrayHeap) {
