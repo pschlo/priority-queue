@@ -75,7 +75,9 @@ console.log(queue.peek())
 ## Performance
 For time complexity, see https://en.wikipedia.org/wiki/Binary_heap#Summary_of_running_times
 
-Array-based and pointer-based heaps have, in general, a similar runtime performance. However, there is a difference when locating the last node in the heap, i.e. the rightmost node in the last layer. An array-based heap can find it simply by accessing the last element in its array, which takes `O(1)` time. A pointer-based heap does not have this kind of global view on its nodes and cannot find the last node quickly. Instead, to find the `n`th node, it can convert `n` to a binary string and cut off the leftmost digit. It then interprets this as a path, where `0` stands for going down to the left child and `1` for the right child. Following this path from the root node will yield the `n`th node.  If the pointer-based heap keeps track of its size, it can thereby find its last node in `O(log n)` time.
+Array-based and pointer-based heaps have, in general, a similar runtime performance. However, there is a difference when locating the last node in the heap, i.e. the rightmost node in the last layer. An array-based heap can find it simply by accessing the last element in its array, which takes `O(1)` time. A pointer-based heap does not have this kind of global view on its nodes and cannot find the last node quickly. Instead, to find the `n`th node, it can convert `n` to a binary string and cut off the leftmost digit. It then interprets this as a path, where `0` stands for going down to the left child and `1` for the right child. Following this path from the root node will yield the `n`th node. If the pointer-based heap keeps track of its size, it can thereby find its last node in `O(log n)` time.
+
+Because of this, every operation that requires knowing the position of the last heap node may take longer in the pointer-based heap than in the array-based heap. These operations include `insert`, `remove` and `extractMin`.
 
 ## Design Choices
 A traditional priority queue uses an array-based heap. We wanted to generalize this and allow for different heaps to be utilized, e.g. a pointer-based one. We also noticed that there are two different kinds of priority queue used in software, and since one can be more suitable than the other in certain situations, we implemented both.
@@ -83,7 +85,7 @@ A traditional priority queue uses an array-based heap. We wanted to generalize t
 Instead of putting items in the heap directly, we store them together with their priority in more generic heap nodes. The heap then only acts on these nodes.
 
 ### Array heap
-The typical array-based heap does not allow for a node to know its position. Instead, to find a specific node, the entire array needs to be search linearly, resulting in a `O(n)` runtime. This is not satisfactory, because even though most operations like `insert`, `peekMin` and `extractMin` do not require locating arbitrary nodes, checking if the heap contains a node and more advanced operations like `delete` or `updateKey` do.
+To perform operations on a given node, the node's index in the internal array must be known. The typical array-based heap does not allow for quickly locating a node. Instead, to find a specific node, the entire array must be searched linearly, resulting in a `O(n)` runtime. This is not satisfactory, because even though basic operations like `insert`, `peekMin` and `extractMin` do not require locating arbitrary nodes, more advanced operations like `delete`, `updateKey` or checking if the heap contains a specific node do.
 
 This is usually fixed by storing a mapping from the items to their array indices. But since our heap uses separate node objects, we simply store the nodes's index in the node itself. To allow for checking if a node is in a heap, a node also stores a reference to its heap.
 
