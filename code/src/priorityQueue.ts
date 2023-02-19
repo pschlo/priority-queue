@@ -2,7 +2,7 @@ import ArrayHeap from "./arrayHeap"
 import { Heap as IHeap, HeapNode } from "./heap"
 
 
-export class PriorityQueueItem<T> {
+export class QueueNode<T> {
     item: T
     priority: number
 
@@ -27,7 +27,7 @@ export type NodeConstructor<Node extends HeapNode<any>> = new (item:Item<Node>,k
 
 
 
-export abstract class BasePriorityQueue<Item> {
+abstract class BaseQueue<Item> {
     protected readonly heap: IHeap<HeapNode<Item>>
     protected allowMultiple: boolean
 
@@ -103,7 +103,7 @@ export abstract class BasePriorityQueue<Item> {
 /**
  * Priority queue that yields items according to the priority they are inserted with.
  */
-export class KeyedPriorityQueue<Item> extends BasePriorityQueue<Item> {
+export class KeyedQueue<Item> extends BaseQueue<Item> {
     private readonly order: 'ASCENDING'|'DESCENDING'
 
     /**
@@ -128,17 +128,17 @@ export class KeyedPriorityQueue<Item> extends BasePriorityQueue<Item> {
         this.heap.insert(node)
     }
 
-    override peek(): PriorityQueueItem<Item> {
+    override peek(): QueueNode<Item> {
         const node = this.heap.peekMin()
         const priority = this.order === 'DESCENDING' ? -node.key : node.key
-        return new PriorityQueueItem(node.item, priority)
+        return new QueueNode(node.item, priority)
     }
 
-    override pop(): PriorityQueueItem<Item> {
+    override pop(): QueueNode<Item> {
         const node = this.heap.extractMin()
         const priority = this.order === 'DESCENDING' ? -node.key : node.key
         this.removeItemNode(node.item, node)
-        return new PriorityQueueItem(node.item, priority)
+        return new QueueNode(node.item, priority)
     }
 
     update(item:Item, priority:number): void {
@@ -155,7 +155,7 @@ export class KeyedPriorityQueue<Item> extends BasePriorityQueue<Item> {
 /**
  * Priority queue that yields items according to the given comparator function.
  */
-export class ComparatorPriorityQueue<Item> extends BasePriorityQueue<Item> {
+export class ComparatorQueue<Item> extends BaseQueue<Item> {
     /**
      * 
      * @param isBefore Function that returns true if `a` should be yielded before `b`.
