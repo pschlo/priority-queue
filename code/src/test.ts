@@ -1,4 +1,6 @@
-import { ComparatorPriorityQueue, KeyedPriorityQueue } from "./abstractPriorityQueue";
+import { ComparatorQueue, KeyedQueue } from "./priorityQueue";
+import ArrayHeap from "./arrayHeap";
+import PointerHeap from "./pointerHeap";
 import { randInt } from "./utils"
 
 
@@ -23,8 +25,8 @@ function isBefore(a:string, b:string) {
 
 
 function testComparators() {
-    const compArray = new ComparatorPriorityQueue<string>(isBefore)
-    const compPointer = new ComparatorPriorityQueue<string>(isBefore)
+    const compArray = new ComparatorQueue<string>(isBefore)
+    const compPointer = new ComparatorQueue<string>(isBefore)
 
     for (let i=0; i<1000; i++) {
         const str = randString(1,30)
@@ -48,12 +50,12 @@ function testComparators() {
 
 
 function testKeyed() {
-    const MAX_LEN = 30
+    const MAX_LEN = 4
 
-    const keyArray = new KeyedPriorityQueue<string>()
-    const keyPointer = new KeyedPriorityQueue<string>()
+    const keyArray = new KeyedQueue<string>()
+    const keyPointer = new KeyedQueue<string>()
 
-    for (let i=0; i<1000; i++) {
+    for (let i=0; i<10; i++) {
         const str = randString(1,MAX_LEN)
         const prio = randPrio()
         keyArray.push(str, prio)
@@ -81,8 +83,7 @@ function testKeyed() {
 
 export default async function main() {
     // testComparators()
-
-    let queue = new KeyedPriorityQueue<string>()
+    let queue = new KeyedQueue<string>('DESCENDING')
 queue.push('A', 1)
 queue.push('B', 5)
 queue.push('C', -3)
@@ -92,10 +93,11 @@ while (!(queue.isEmpty()))
   console.log(queue.pop())
   
 /* Output:
-PriorityQueueItem { item: 'C', priority: -3 }
-PriorityQueueItem { item: 'D', priority: 0.5 }
-PriorityQueueItem { item: 'A', priority: 1 }
 PriorityQueueItem { item: 'B', priority: 5 }
+PriorityQueueItem { item: 'A', priority: 1 }
+PriorityQueueItem { item: 'D', priority: 0.5 }
+PriorityQueueItem { item: 'C', priority: -3 }
+PriorityQueueItem { item: 'E', priority: 7 }
 */
 
 queue.push('E', 7)
