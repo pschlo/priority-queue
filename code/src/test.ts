@@ -1,5 +1,5 @@
+import { ComparatorPriorityQueue, KeyedPriorityQueue } from "./abstractPriorityQueue";
 import { randInt } from "./utils"
-import { KeyedPriorityQueue, ComparatorPriorityQueue } from "./priorityQueue";
 
 
 function randString(min:number=1, max:number=5) {
@@ -23,8 +23,8 @@ function isBefore(a:string, b:string) {
 
 
 function testComparators() {
-    const compArray = new ComparatorPriorityQueue<string>(isBefore, true, 'ARRAY')
-    const compPointer = new ComparatorPriorityQueue<string>(isBefore, true, 'POINTER')
+    const compArray = new ComparatorPriorityQueue<string>(isBefore)
+    const compPointer = new ComparatorPriorityQueue<string>(isBefore)
 
     for (let i=0; i<1000; i++) {
         const str = randString(1,30)
@@ -50,8 +50,8 @@ function testComparators() {
 function testKeyed() {
     const MAX_LEN = 30
 
-    const keyArray = new KeyedPriorityQueue<string>(true, 'ARRAY')
-    const keyPointer = new KeyedPriorityQueue<string>(true, 'POINTER')
+    const keyArray = new KeyedPriorityQueue<string>()
+    const keyPointer = new KeyedPriorityQueue<string>()
 
     for (let i=0; i<1000; i++) {
         const str = randString(1,MAX_LEN)
