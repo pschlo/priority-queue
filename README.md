@@ -87,7 +87,7 @@ Instead of putting items in the heap directly, we store them together with their
 For `ComparatorQueue`, the priority of an item is not given explicitly. The `key` field of a heap node is thus not used. We decided that a `ComparatorQueue` should always create new heap nodes with priority `-1` as a dummy value.
 
 ### Array heap
-To perform operations on a given node, the node's index in the internal array must be known. The typical array-based heap does not allow for quickly locating a node. Instead, to find a specific node, the entire array must be searched linearly, resulting in a `O(n)` runtime. This is not satisfactory, because even though basic operations like `insert`, `peekMin` and `extractMin` do not require locating arbitrary nodes, more advanced operations like `delete`, `updateKey` or checking if the heap contains a specific node do.
+To perform operations on a given node, the node's index in the internal array must be known. The typical array-based heap does not allow for quickly locating a node. Instead, to find a specific node, the entire array must be searched linearly, resulting in a `O(n)` runtime. This is not satisfactory, because even though basic operations like `insert`, `peekMin` and `extractMin` do not require locating arbitrary nodes, more advanced operations like `remove`, `updateKey` or checking if the heap contains a specific node do.
 
 This is usually fixed by storing a mapping from the items to their array indices. But since our heap uses separate node objects, we simply store the nodes's index in the node itself. To allow for checking if a node is in a heap, a node also stores a reference to its heap.
 
