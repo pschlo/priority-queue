@@ -29,17 +29,17 @@ queue.push('D', 0.5)
 
 while (!(queue.isEmpty()))
   console.log(queue.pop())
-  
+
 /* Output:
-PriorityQueueItem { item: 'B', priority: 5 }
-PriorityQueueItem { item: 'A', priority: 1 }
-PriorityQueueItem { item: 'D', priority: 0.5 }
-PriorityQueueItem { item: 'C', priority: -3 }
+QueueNode { item: 'B', priority: 5 }
+QueueNode { item: 'A', priority: 1 }
+QueueNode { item: 'D', priority: 0.5 }
+QueueNode { item: 'C', priority: -3 }
 */
 
 queue.push('E', 7)
 console.log(queue.peek())
-// Output: PriorityQueueItem { item: 'E', priority: 7 }
+// Output: QueueNode { item: 'E', priority: 7 }
 console.log(queue.peek().item)
 // Output: E
 console.log(queue.peek().priority)
