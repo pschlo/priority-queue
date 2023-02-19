@@ -1,5 +1,5 @@
 {
-  "name": "priorityqueue",
+  "name": "priority-queue",
   "version": "1.0.0",
   "description": "Two heap-based implementations of a priority queue",
   "main": "main.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pschlo/priorityQueue.git"
+    "url": "git+https://github.com/pschlo/priority-queue.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/pschlo/priorityQueue/issues"
+    "url": "https://github.com/pschlo/priority-queue/issues"
   },
-  "homepage": "https://github.com/pschlo/priorityQueue#readme",
+  "homepage": "https://github.com/pschlo/priority-queue#readme",
   "devDependencies": {
     "typescript": "^4.9.5"
   }
