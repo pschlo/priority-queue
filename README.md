@@ -1,4 +1,4 @@
-# priorityQueue
+# priority-queue
 Implementation of a priority queue using a min-heap internally. Two heap classes are already provided.
 
 ## Queue types
@@ -10,7 +10,7 @@ By default, the same item cannot exist in a heap more than once. To allow the qu
 
 ## Heap types
 Any class that implements the `Heap` interface can be used as the internal heap of a priority queue. The heap constructor must be passed to the queue constructor.
-Two types of heap are already implemented:
+Two types of min-heap are already implemented:
 1. **`ArrayHeap`**: Nodes are stored in an array.
 2. **`PointerHeap`**: Nodes store references to their parent and their children.
 
@@ -73,7 +73,7 @@ console.log(queue.peek())
 
 
 ## Performance
-For time complexity, see https://en.wikipedia.org/wiki/Binary_heap#Summary_of_running_times
+For time complexity, see https://en.wikipedia.org/wiki/Binary_heap#Summary_of_running_times .
 
 Array-based and pointer-based heaps have, in general, a similar runtime performance. However, there is a difference when locating the last node in the heap, i.e. the rightmost node in the last layer. An array-based heap can find it simply by accessing the last element in its array, which takes `O(1)` time. A pointer-based heap does not have this kind of global view on its nodes and cannot find the last node quickly. Instead, to find the `n`th node, it can convert `n` to a binary string and cut off the leftmost digit. It then interprets this as a path, where `0` stands for going down to the left child and `1` for the right child. Following this path from the root node will yield the `n`th node. If the pointer-based heap keeps track of its size, it can thereby find its last node in `O(log n)` time.
 
