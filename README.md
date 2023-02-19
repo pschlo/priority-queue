@@ -1,26 +1,27 @@
 # priorityQueue
-Two heap-based implementations of a priority queue
+Implementation of a priority queue using a min-heap internally. Two heap classes are already provided.
 
 ## Queue types
 Two types of priority queue are implemented:
-1. **Keyed queues**: Items are inserted with a priority. Extracting items also yields the priority. The priority can be updated.
-2. **Comparator queues**: Items are sorted according to a comparator function. Once inserted, an items 'priority' cannot be updated (maybe this will be added later)
+1. **`KeyedQueue`**: Items are inserted with a priority, which determines the order in which items are yielded. The priorities can be updated.
+2. **`ComparatorQueue`**: Items are yielded according to a comparator function. Once inserted, an items 'priority' cannot be updated (maybe this will be added later)
 
 By default, the same item cannot exist in a heap more than once. To allow the queue to contain an item multiple times, construct the queue with `allowMultiple` set to `true`.
 
 ## Heap types
-Two types of heap can be used internally:
-1. **Array-based heap**: Nodes are stored in an array.
-2. **Pointer-based heap**: Nodes store references to their parent and their children.
+Any class that implements the `Heap` interface can be used as the internal heap of a priority queue. The heap constructor must be passed to the queue constructor.
+Two types of heap are already implemented:
+1. **`ArrayHeap`**: Nodes are stored in an array.
+2. **`PointerHeap`**: Nodes store references to their parent and their children.
 
-The heap type can be specified in the constructor. By default, priority queues use array-based heaps. Some testing showed that the array-based heap implementation seems to be the faster option.
+By default, priority queues use array-based heaps. Some testing seems to suggest that the array-based heap implementation is faster than the pointer-based heap.
 
 ## Example
 
 Simple demonstration of the keyed priority queue:
 
 ```typescript
-let queue = new KeyedPriorityQueue<string>()
+let queue = new KeyedQueue<string>('DESCENDING')
 queue.push('A', 1)
 queue.push('B', 5)
 queue.push('C', -3)
@@ -30,10 +31,10 @@ while (!(queue.isEmpty()))
   console.log(queue.pop())
   
 /* Output:
-PriorityQueueItem { item: 'C', priority: -3 }
-PriorityQueueItem { item: 'D', priority: 0.5 }
-PriorityQueueItem { item: 'A', priority: 1 }
 PriorityQueueItem { item: 'B', priority: 5 }
+PriorityQueueItem { item: 'A', priority: 1 }
+PriorityQueueItem { item: 'D', priority: 0.5 }
+PriorityQueueItem { item: 'C', priority: -3 }
 */
 
 queue.push('E', 7)
@@ -49,7 +50,7 @@ console.log(queue.peek().priority)
 Simple demonstration of the comparator priority queue:
 
 ```typescript
-let queue = new ComparatorPriorityQueue<string>((a,b) => a.length < b.length)
+let queue = new ComparatorQueue<string>((a,b) => a.length < b.length)
 queue.push('pineapple')
 queue.push('pear')
 queue.push('banana')
