@@ -107,13 +107,13 @@ export class KeyedPriorityQueue<Item> extends BasePriorityQueue<Item> {
     private readonly order: 'ASCENDING'|'DESCENDING'
 
     /**
-     * 
-     * @param allowMultiple Whether an item can exist in the queue more than once. Default is `false`.
+     *
      * @param order Whether the items should be yielded in ascending or descending order of their priority. Default is `ASCENDING`.
+     * @param allowMultiple Whether an item can exist in the queue more than once. Default is `false`.
      * @param heapConstructor Constructor for creating a new heap. Default is a constructor that creates an `ArrayHeap` instance.
      */
-    constructor(allowMultiple=false,
-                order:'ASCENDING'|'DESCENDING' = 'ASCENDING',
+    constructor(order:'ASCENDING'|'DESCENDING' = 'ASCENDING',
+                allowMultiple=false,
                 heapConstructor: HeapConstructor<IHeap<any>> = ArrayHeap) {
 
         super(new heapConstructor(), allowMultiple)
