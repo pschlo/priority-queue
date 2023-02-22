@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Two heap-based implementations of a priority queue",
   "main": "main.js",
+  "types": "./types/main.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
