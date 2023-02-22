@@ -1,10 +1,11 @@
 {
   "name": "priority-queue",
+  "type": "commonjs",
   "version": "1.0.0",
   "description": "Two heap-based implementations of a priority queue",
-  "main": "out/main.js",
-  "types": "out/types/main.d.ts",
-  "files": ["out/**/*"],
+  "main": "dist/priorityQueue.js",
+  "types": "dist/types/priorityQueue.d.ts",
+  "files": ["dist"],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
