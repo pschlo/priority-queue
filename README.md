@@ -9,7 +9,7 @@ This package is not currently uploaded to npm. Install as follows:
 3. Run `npm install {link}`
 
 ## Building
-The `.tgz` file in a release was created from the source code with `npm pack`.
+The `.tgz` file in a release was created from the source code with `npm pack`. The reason we use this command instead of simply running `tar` on the whole project is that `npm pack` obeys the [`files`](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#files) field in `package.json`.
 
 ## Queue types
 Two types of priority queue are implemented:
