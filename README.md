@@ -1,6 +1,16 @@
 # priority-queue
 Implementation of a priority queue using a min-heap internally. Two heap classes are already provided.
 
+## Installation
+This package is not currently uploaded to npm. Install as follows:
+
+1. Find your release of choice [here](https://github.com/pschlo/priority-queue/releases)
+2. Copy the link to `priority-queue-x.x.x.tgz`
+3. Run `npm install {link}`
+
+## Building
+The `.tgz` file in a release was created from the source code with `npm pack`.
+
 ## Queue types
 Two types of priority queue are implemented:
 1. **`KeyedQueue`**: Items are inserted with a priority, which determines the order in which items are yielded. The priorities can be updated.
